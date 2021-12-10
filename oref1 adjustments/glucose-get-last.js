@@ -134,8 +134,8 @@ var getLastGlucose = function (data) {
             var minutesL;
             // here, longer deltas include all values from 0 up the related limit
             for (int i = 0; i < sizeRecords; i++) {
-                BgReading then = data.get(i);  // ?????? must be something now.glucose / then.glucos
-                var then_date = then.date;
+                var then = data[i];
+                var then_date = getDateFromEntry(then);
                 minutesL = (now_date - then_date) / (1000 * 60);
                 // watch out: the scan goes backwards in time, so delta has wrong sign
                 if (minutesL>level && level==7.5) {
@@ -198,8 +198,8 @@ var getLastGlucose = function (data) {
                 var ti_last = 0;
 
                 for (int i = 0; i < sizeRecords; i++) {
-                    BgReading then = data.get(i);       // ??????
-                    then_date = then.date;
+                    var then = data[i];
+                    var then_date = getDateFromEntry(then);
                     var ti = (then_date - time_0)/1000;
                     if (-ti > 47 * 60) {                        // skip records older than 47.5 minutes
                         break;
@@ -241,7 +241,7 @@ var getLastGlucose = function (data) {
                         var s_squares = 0.0;
                         var s_residual_squares = 0;
                         for (int j = 0; j <= i; j++) {
-                            BgReading before = data.get(j);      //before??????
+                            var before = data.get[j];
                             s_squares += Math.pow(before.value - y_mean, 2);
                             var delta_t = (before.date - time_0) / 1000d;
                             s_residual_squares += Math.pow(before.value - a * Math.pow(delta_t, 2) - b * delta_t - c, 2);
