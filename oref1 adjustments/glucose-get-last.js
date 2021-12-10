@@ -66,6 +66,8 @@ var getLastGlucose = function (data) {
     var last_delta = 0;
     var short_avgdelta = 0;
     var long_avgdelta = 0;
+    var autoISF_duration = 0;
+    var autoISF_average = 0;
     if (last_deltas.length > 0) {
         last_delta = last_deltas.reduce(function(a, b) { return a + b; }) / last_deltas.length;
     }
@@ -75,6 +77,28 @@ var getLastGlucose = function (data) {
     if (long_deltas.length > 0) {
         long_avgdelta = long_deltas.reduce(function(a, b) { return a + b; }) / long_deltas.length;
     }
+    var bw = 0.05;
+    var sumBG = now.glucose;
+    var oldavg = now.glucose;
+    var minutesdur = 0;
+    for (var i = 1; i < data.length; i++) {
+        var then = data[i];
+        var then_date = getDateFromEntry(then);
+        //  GZ mod 7c: stop the series if there was a CGM gap greater than 13 minutes, i.e. 2 regular readings
+        if (Math.round((now_date - then_date) / (1000 * 60)) - minutesdur > 13) {
+            break;
+            }
+            if (then.glucose > oldavg*(1-bw) && then.glucose < oldavg*(1+bw)) {
+            sumBG += then.glucose;
+            oldavg = sumBG / (i+1);
+            minutesdur = Math.round((now_date - then_date) / (1000 * 60));
+            } else {
+            break;
+        }
+    }
+
+            autoISF_average = oldavg;
+            autoISF_duration = minutesdur;
 
     return {
         delta: Math.round( last_delta * 100 ) / 100
@@ -82,6 +106,8 @@ var getLastGlucose = function (data) {
         , noise: Math.round(now.noise)
         , short_avgdelta: Math.round( short_avgdelta * 100 ) / 100
         , long_avgdelta: Math.round( long_avgdelta * 100 ) / 100
+        , autoISF_average: Math.round( autoISF_average * 100) / 100
+        , autoISF_duration: Math.round(autoISF_duration * 100) / 100
         , date: now_date
         , last_cal: last_cal
         , device: now.device
