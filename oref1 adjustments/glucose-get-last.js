@@ -280,6 +280,16 @@ var getLastGlucose = function (data) {
         , long_avgdelta: Math.round( long_avgdelta * 100 ) / 100
         , autoISF_average: Math.round( autoISF_average * 100) / 100
         , autoISF_duration: Math.round(autoISF_duration * 100) / 100
+        // which stuff to return for mod 8 and mod 14 - probably all status.xxx values from Java adaption autoISF2.1
+        , dura_p: Math.round( dura_p * 100) / 100
+        , delta_pl: Math.round( delta_pl * 100) / 100
+        , delta_pn: Math.round( delta_pn * 100) / 100
+        , bg_acceleration: Math.round( bg_acceleration * 100) / 100
+        , r_squ: Math.round( r_squ * 100) / 100
+        , slope05: Math.round( slope05 * 100) / 100
+        , slope15: Math.round( slope15 * 100) / 100
+        , slope40: Math.round( slope40 * 100) / 100
+        // above mod 8 and 14
         , date: now_date
         , last_cal: last_cal
         , device: now.device
