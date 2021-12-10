@@ -134,7 +134,7 @@ var getLastGlucose = function (data) {
             var minutesL;
             // here, longer deltas include all values from 0 up the related limit
             for (int i = 0; i < sizeRecords; i++) {
-                BgReading then = data.get(i);
+                BgReading then = data.get(i);  // ??????
                 long then_date = then.date;
                 minutesL = (now_date - then_date) / (1000 * 60);
                 // watch out: the scan goes backwards in time, so delta has wrong sign
@@ -185,20 +185,20 @@ var getLastGlucose = function (data) {
                 r_squ   = 0;
             } else {
                 //double corrMin = 0.90;                  // go backwards until the correlation coefficient goes below
-                sy    = 0;                        // y
-                sx    = 0;                        // x
-                sx2   = 0;                        // x^2
-                sx3   = 0;                        // x^3
-                sx4   = 0;                        // x^4
-                sxy   = 0;                        // x*y
-                sx2y  = 0;                        // x^2*y
-                corrMax = 0d;
-                BgReading iframe = data.get(0);
+                var sy    = 0;                        // y
+                var sx    = 0;                        // x
+                var sx2   = 0;                        // x^2
+                var sx3   = 0;                        // x^3
+                var sx4   = 0;                        // x^4
+                var sxy   = 0;                        // x*y
+                var sx2y  = 0;                        // x^2*y
+                var corrMax = 0;
+                BgReading iframe = data.get(0);       // ??????
                 var time_0 = iframe.date;
                 var ti_last = 0;
 
                 for (int i = 0; i < sizeRecords; i++) {
-                    BgReading then = data.get(i);
+                    BgReading then = data.get(i);       // ??????
                     var then_date = then.date;
                     var ti = (then_date - time_0)/1000;
                     if (-ti > 47 * 60) {                        // skip records older than 47.5 minutes
@@ -241,7 +241,7 @@ var getLastGlucose = function (data) {
                         var s_squares = 0.0;
                         var s_residual_squares = 0;
                         for (int j = 0; j <= i; j++) {
-                            BgReading before = data.get(j);  //before??
+                            BgReading before = data.get(j);      //before??????
                             s_squares += Math.pow(before.value - y_mean, 2);
                             var delta_t = (before.date - time_0) / 1000d;
                             s_residual_squares += Math.pow(before.value - a * Math.pow(delta_t, 2) - b * delta_t - c, 2);
