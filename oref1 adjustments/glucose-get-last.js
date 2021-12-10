@@ -193,7 +193,7 @@ var getLastGlucose = function (data) {
                 var sxy   = 0;                        // x*y
                 var sx2y  = 0;                        // x^2*y
                 var corrMax = 0;
-                BgReading iframe = data.get(0);       // ??????
+                var iframe = data.get[0];
                 var time_0 = iframe.date;
                 var ti_last = 0;
 
