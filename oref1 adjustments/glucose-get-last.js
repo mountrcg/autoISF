@@ -134,8 +134,8 @@ var getLastGlucose = function (data) {
             var minutesL;
             // here, longer deltas include all values from 0 up the related limit
             for (int i = 0; i < sizeRecords; i++) {
-                BgReading then = data.get(i);  // ??????
-                long then_date = then.date;
+                BgReading then = data.get(i);  // ?????? must be something now.glucose / then.glucos
+                var then_date = then.date;
                 minutesL = (now_date - then_date) / (1000 * 60);
                 // watch out: the scan goes backwards in time, so delta has wrong sign
                 if (minutesL>level && level==7.5) {
@@ -199,7 +199,7 @@ var getLastGlucose = function (data) {
 
                 for (int i = 0; i < sizeRecords; i++) {
                     BgReading then = data.get(i);       // ??????
-                    var then_date = then.date;
+                    then_date = then.date;
                     var ti = (then_date - time_0)/1000;
                     if (-ti > 47 * 60) {                        // skip records older than 47.5 minutes
                         break;
